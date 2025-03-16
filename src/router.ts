@@ -23,7 +23,7 @@ const routes: Route[] = [
 /**
  * リクエストのルーティングを処理する
  */
-export async function router(req: Request): Promise<Response> {
+export function router(req: Request): Promise<Response> {
   const url = new URL(req.url);
 
   // ルートマッチング
@@ -35,7 +35,7 @@ export async function router(req: Request): Promise<Response> {
   }
 
   // 404処理
-  return new Response("ページが見つかりません", { status: Status.NotFound });
+  return Promise.resolve(new Response("ページが見つかりません", { status: Status.NotFound }));
 }
 
 /**
@@ -51,19 +51,19 @@ async function handleHome(_req: Request): Promise<Response> {
 /**
  * リダイレクト処理を行う
  */
-async function handleRedirect(req: Request): Promise<Response> {
+function handleRedirect(req: Request): Promise<Response> {
   const url = new URL(req.url);
   const redirectURL = url.searchParams.get("to");
   
   if (!redirectURL) {
-    return new Response("リダイレクト先のURLが指定されていません", { status: Status.BadRequest });
+    return Promise.resolve(new Response("リダイレクト先のURLが指定されていません", { status: Status.BadRequest }));
   }
 
   // リダイレクト先のURLをデコード
   const decodedURL = decodeURIComponent(redirectURL);
   
   // obsidianスキームへのリダイレクト
-  return Response.redirect(decodedURL, Status.Found);
+  return Promise.resolve(Response.redirect(decodedURL, Status.Found));
 }
 
 /**
