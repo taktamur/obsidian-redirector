@@ -1,4 +1,4 @@
-import { Status } from "https://deno.land/std@0.211.0/http/http_status.ts";
+import { STATUS_CODE } from "https://deno.land/std@0.220.1/http/status.ts";
 
 type Route = {
   pattern: URLPattern;
@@ -35,7 +35,7 @@ export function router(req: Request): Promise<Response> {
   }
 
   // 404処理
-  return Promise.resolve(new Response("ページが見つかりません", { status: Status.NotFound }));
+  return Promise.resolve(new Response("ページが見つかりません", { status: STATUS_CODE.NotFound }));
 }
 
 /**
@@ -56,14 +56,14 @@ function handleRedirect(req: Request): Promise<Response> {
   const redirectURL = url.searchParams.get("to");
   
   if (!redirectURL) {
-    return Promise.resolve(new Response("リダイレクト先のURLが指定されていません", { status: Status.BadRequest }));
+    return Promise.resolve(new Response("リダイレクト先のURLが指定されていません", { status: STATUS_CODE.BadRequest }));
   }
 
   // リダイレクト先のURLをデコード
   const decodedURL = decodeURIComponent(redirectURL);
   
   // obsidianスキームへのリダイレクト
-  return Promise.resolve(Response.redirect(decodedURL, Status.Found));
+  return Promise.resolve(Response.redirect(decodedURL, STATUS_CODE.Found));
 }
 
 /**
@@ -81,7 +81,7 @@ async function handleStatic(_req: Request, match: URLPatternResult): Promise<Res
     });
   } catch (error) {
     console.error("静的ファイル取得エラー:", error);
-    return new Response("ファイルが見つかりません", { status: Status.NotFound });
+    return new Response("ファイルが見つかりません", { status: STATUS_CODE.NotFound });
   }
 }
 

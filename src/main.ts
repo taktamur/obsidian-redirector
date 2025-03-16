@@ -1,4 +1,4 @@
-import { serve } from "https://deno.land/std@0.211.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.220.1/http/server.ts";
 import { router } from "./router.ts";
 
 const PORT = 8001;
