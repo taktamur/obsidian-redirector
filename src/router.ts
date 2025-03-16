@@ -35,7 +35,9 @@ export function router(req: Request): Promise<Response> {
   }
 
   // 404処理
-  return Promise.resolve(new Response("ページが見つかりません", { status: STATUS_CODE.NotFound }));
+  return Promise.resolve(
+    new Response("ページが見つかりません", { status: STATUS_CODE.NotFound }),
+  );
 }
 
 /**
@@ -54,14 +56,18 @@ async function handleHome(_req: Request): Promise<Response> {
 function handleRedirect(req: Request): Promise<Response> {
   const url = new URL(req.url);
   const redirectURL = url.searchParams.get("to");
-  
+
   if (!redirectURL) {
-    return Promise.resolve(new Response("リダイレクト先のURLが指定されていません", { status: STATUS_CODE.BadRequest }));
+    return Promise.resolve(
+      new Response("リダイレクト先のURLが指定されていません", {
+        status: STATUS_CODE.BadRequest,
+      }),
+    );
   }
 
   // リダイレクト先のURLをデコード
   const decodedURL = decodeURIComponent(redirectURL);
-  
+
   // obsidianスキームへのリダイレクト
   return Promise.resolve(Response.redirect(decodedURL, STATUS_CODE.Found));
 }
@@ -69,19 +75,24 @@ function handleRedirect(req: Request): Promise<Response> {
 /**
  * 静的ファイルを提供する
  */
-async function handleStatic(_req: Request, match: URLPatternResult): Promise<Response> {
+async function handleStatic(
+  _req: Request,
+  match: URLPatternResult,
+): Promise<Response> {
   try {
     const fileName = match.pathname.groups.file;
     const fileContent = await Deno.readFile(`./static/${fileName}`);
-    
+
     const contentType = getContentType(fileName);
-    
+
     return new Response(fileContent, {
       headers: { "content-type": contentType },
     });
   } catch (error) {
     console.error("静的ファイル取得エラー:", error);
-    return new Response("ファイルが見つかりません", { status: STATUS_CODE.NotFound });
+    return new Response("ファイルが見つかりません", {
+      status: STATUS_CODE.NotFound,
+    });
   }
 }
 

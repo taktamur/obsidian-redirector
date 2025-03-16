@@ -1,170 +1,184 @@
 <!DOCTYPE html>
 <html lang="ja">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Obsidianリダイレクター</title>
-  <style>
-    body {
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-      max-width: 800px;
-      margin: 0 auto;
-      padding: 20px;
-      line-height: 1.6;
-      color: #333;
-    }
-    h1 {
-      color: #5C2D91;
-      margin-bottom: 1em;
-    }
-    .container {
-      background-color: #f5f5f5;
-      border-radius: 8px;
-      padding: 20px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-    }
-    label {
-      display: block;
-      margin-bottom: 8px;
-      font-weight: bold;
-    }
-    input[type="text"] {
-      width: 100%;
-      padding: 10px;
-      font-size: 16px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      box-sizing: border-box;
-      margin-bottom: 15px;
-    }
-    button {
-      background-color: #5C2D91;
-      color: white;
-      border: none;
-      padding: 10px 15px;
-      border-radius: 4px;
-      cursor: pointer;
-      font-size: 16px;
-    }
-    button:hover {
-      background-color: #4A2376;
-    }
-    .example {
-      margin-top: 20px;
-      font-size: 14px;
-      color: #666;
-    }
-    .result {
-      margin-top: 20px;
-      padding: 10px;
-      border: 1px solid #ddd;
-      border-radius: 4px;
-      background-color: #fff;
-      word-break: break-all;
-    }
-    .hidden {
-      display: none;
-    }
-    .button-group {
-      display: flex;
-      gap: 10px;
-      margin-top: 10px;
-    }
-    .button-group button {
-      flex: 1;
-    }
-  </style>
-</head>
-<body>
-  <h1>Obsidianリダイレクター</h1>
-  
-  <div class="container">
-    <p>ObsidianのURLスキーム（obsidian://）をブラウザから開くためのリダイレクターです。</p>
-    
-    <div>
-      <label for="obsidianUrl">Obsidian URL:</label>
-      <input type="text" id="obsidianUrl" name="obsidianUrl" 
-             placeholder="例: obsidian://open?vault=MyVault&file=MyNote" 
-             autocomplete="off">
-    </div>
-    
-    <div id="result" class="result">
-      <div>以下のURLで直接アクセスできます: <span id="redirectUrl"></span></div>
-      <div class="button-group">
-        <button id="copyButton">URLをコピー</button>
-        <button id="openButton">Obsidianで開く</button>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Obsidianリダイレクター</title>
+    <style>
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
+          Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+        line-height: 1.6;
+        color: #333;
+      }
+      h1 {
+        color: #5c2d91;
+        margin-bottom: 1em;
+      }
+      .container {
+        background-color: #f5f5f5;
+        border-radius: 8px;
+        padding: 20px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      label {
+        display: block;
+        margin-bottom: 8px;
+        font-weight: bold;
+      }
+      input[type="text"] {
+        width: 100%;
+        padding: 10px;
+        font-size: 16px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        box-sizing: border-box;
+        margin-bottom: 15px;
+      }
+      button {
+        background-color: #5c2d91;
+        color: white;
+        border: none;
+        padding: 10px 15px;
+        border-radius: 4px;
+        cursor: pointer;
+        font-size: 16px;
+      }
+      button:hover {
+        background-color: #4a2376;
+      }
+      .example {
+        margin-top: 20px;
+        font-size: 14px;
+        color: #666;
+      }
+      .result {
+        margin-top: 20px;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        background-color: #fff;
+        word-break: break-all;
+      }
+      .hidden {
+        display: none;
+      }
+      .button-group {
+        display: flex;
+        gap: 10px;
+        margin-top: 10px;
+      }
+      .button-group button {
+        flex: 1;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Obsidianリダイレクター</h1>
+
+    <div class="container">
+      <p>
+        ObsidianのURLスキーム（obsidian://）をブラウザから開くためのリダイレクターです。
+      </p>
+
+      <div>
+        <label for="obsidianUrl">Obsidian URL:</label>
+        <input
+          type="text"
+          id="obsidianUrl"
+          name="obsidianUrl"
+          placeholder="例: obsidian://open?vault=MyVault&file=MyNote"
+          autocomplete="off"
+        />
+      </div>
+
+      <div id="result" class="result">
+        <div>
+          以下のURLで直接アクセスできます: <span id="redirectUrl"></span>
+        </div>
+        <div class="button-group">
+          <button id="copyButton">URLをコピー</button>
+          <button id="openButton">Obsidianで開く</button>
+        </div>
+      </div>
+
+      <div class="example">
+        <h3>使用例:</h3>
+        <ul>
+          <li>
+            <code>obsidian://open?vault=MyVault&file=MyNote</code> -
+            特定のノートを開く
+          </li>
+        </ul>
       </div>
     </div>
-    
-    <div class="example">
-      <h3>使用例:</h3>
-      <ul>
-        <li><code>obsidian://open?vault=MyVault&file=MyNote</code> - 特定のノートを開く</li>
-      </ul>
-    </div>
-  </div>
 
-  <script>
-    document.addEventListener('DOMContentLoaded', () => {
-      const obsidianUrlInput = document.getElementById('obsidianUrl');
-      const redirectUrlSpan = document.getElementById('redirectUrl');
-      const copyButton = document.getElementById('copyButton');
-      const openButton = document.getElementById('openButton');
-      
-      // URLが更新されたら自動でリダイレクトURLを更新
-      obsidianUrlInput.addEventListener('input', updateRedirectUrl);
-      
-      // 初期表示時に空のURLを表示
-      updateRedirectUrl();
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const obsidianUrlInput = document.getElementById("obsidianUrl");
+        const redirectUrlSpan = document.getElementById("redirectUrl");
+        const copyButton = document.getElementById("copyButton");
+        const openButton = document.getElementById("openButton");
 
-      // リダイレクトURLを更新する関数
-      function updateRedirectUrl() {
-        const obsidianUrl = obsidianUrlInput.value.trim();
-        if (!obsidianUrl) {
-          redirectUrlSpan.textContent = window.location.origin + '/redirect?to=';
-          return;
+        // URLが更新されたら自動でリダイレクトURLを更新
+        obsidianUrlInput.addEventListener("input", updateRedirectUrl);
+
+        // 初期表示時に空のURLを表示
+        updateRedirectUrl();
+
+        // リダイレクトURLを更新する関数
+        function updateRedirectUrl() {
+          const obsidianUrl = obsidianUrlInput.value.trim();
+          if (!obsidianUrl) {
+            redirectUrlSpan.textContent =
+              window.location.origin + "/redirect?to=";
+            return;
+          }
+
+          // URLのエンコード処理
+          const encodedUrl = encodeURIComponent(obsidianUrl);
+          const redirectUrl = `/redirect?to=${encodedUrl}`;
+
+          // 結果を表示（完全なURLを表示）
+          const fullUrl = window.location.origin + redirectUrl;
+          redirectUrlSpan.textContent = fullUrl;
         }
-        
-        // URLのエンコード処理
-        const encodedUrl = encodeURIComponent(obsidianUrl);
-        const redirectUrl = `/redirect?to=${encodedUrl}`;
-        
-        // 結果を表示（完全なURLを表示）
-        const fullUrl = window.location.origin + redirectUrl;
-        redirectUrlSpan.textContent = fullUrl;
-      }
-      
-      // コピーボタンの処理
-      copyButton.addEventListener('click', () => {
-        const textToCopy = redirectUrlSpan.textContent;
-        navigator.clipboard.writeText(textToCopy)
-          .then(() => {
-            const button = copyButton;
-            const originalText = button.textContent;
-            button.textContent = 'コピーしました！';
-            button.disabled = true;
-            setTimeout(() => {
-              button.textContent = originalText;
-              button.disabled = false;
-            }, 2000);
-          })
-          .catch(err => {
-            console.error('クリップボードへのコピーに失敗しました:', err);
-          });
+
+        // コピーボタンの処理
+        copyButton.addEventListener("click", () => {
+          const textToCopy = redirectUrlSpan.textContent;
+          navigator.clipboard
+            .writeText(textToCopy)
+            .then(() => {
+              const button = copyButton;
+              const originalText = button.textContent;
+              button.textContent = "コピーしました！";
+              button.disabled = true;
+              setTimeout(() => {
+                button.textContent = originalText;
+                button.disabled = false;
+              }, 2000);
+            })
+            .catch((err) => {
+              console.error("クリップボードへのコピーに失敗しました:", err);
+            });
+        });
+
+        // 開くボタンの処理
+        openButton.addEventListener("click", () => {
+          const obsidianUrl = obsidianUrlInput.value.trim();
+          if (!obsidianUrl) return;
+
+          const encodedUrl = encodeURIComponent(obsidianUrl);
+          const redirectUrl = `/redirect?to=${encodedUrl}`;
+
+          // Obsidianで開く
+          window.location.href = redirectUrl;
+        });
       });
-      
-      // 開くボタンの処理
-      openButton.addEventListener('click', () => {
-        const obsidianUrl = obsidianUrlInput.value.trim();
-        if (!obsidianUrl) return;
-        
-        const encodedUrl = encodeURIComponent(obsidianUrl);
-        const redirectUrl = `/redirect?to=${encodedUrl}`;
-        
-        // Obsidianで開く
-        window.location.href = redirectUrl;
-      });
-    });
-  </script>
-</body>
+    </script>
+  </body>
 </html>

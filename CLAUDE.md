@@ -1,9 +1,11 @@
 # CLAUDE.md - redirectorプロジェクトガイドライン
 
 ## プロジェクト概要
+
 http://localhost:8001からObsidianのURLスキームへリクエストを転送するローカルリダイレクターアプリケーション。
 
 ## 開発コマンド
+
 ```bash
 # ローカルサーバーを起動
 deno run --allow-net --allow-read src/main.ts
@@ -25,6 +27,7 @@ deno test path/to/test_file.ts
 ```
 
 ## コードスタイルガイドライン
+
 - **フォーマット**: Denoの標準フォーマッター使用
 - **命名規則**: 変数/関数はcamelCase、クラスはPascalCase
 - **インポート**: 標準ライブラリ、外部ライブラリ、内部モジュールの順でグループ化
