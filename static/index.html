@@ -138,6 +138,12 @@
             return;
           }
 
+          // ObsidianのURLスキームかチェック
+          if (!obsidianUrl.startsWith("obsidian://")) {
+            alert("ObsidianのURLスキーム(obsidian://)で始まる必要があります");
+            return;
+          }
+
           // URLのエンコード処理
           const encodedUrl = encodeURIComponent(obsidianUrl);
           const redirectUrl = `/redirect?to=${encodedUrl}`;
@@ -171,6 +177,12 @@
         openButton.addEventListener("click", () => {
           const obsidianUrl = obsidianUrlInput.value.trim();
           if (!obsidianUrl) return;
+          
+          // ObsidianのURLスキームかチェック
+          if (!obsidianUrl.startsWith("obsidian://")) {
+            alert("ObsidianのURLスキーム(obsidian://)で始まる必要があります");
+            return;
+          }
 
           const encodedUrl = encodeURIComponent(obsidianUrl);
           const redirectUrl = `/redirect?to=${encodedUrl}`;

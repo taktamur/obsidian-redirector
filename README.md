@@ -27,7 +27,7 @@ deno run --watch --allow-net --allow-read src/main.ts
 
 ### 使用例
 
-1. ブラウザで http://localhost:8001 にアクセス
+1. ブラウザで http://localhost:8098 にアクセス
 2. フォームに Obsidian の URL を入力（例:
    obsidian://open?vault=MyVault&file=MyNote）
 3. 「開く」ボタンをクリックすると、Obsidian アプリが開く
@@ -38,7 +38,7 @@ deno run --watch --allow-net --allow-read src/main.ts
 直接リダイレクト用の URL を使用:
 
 ```
-http://localhost:8001/redirect?to=obsidian%3A%2F%2Fopen%3Fvault%3DMyVault%26file%3DMyNote
+http://localhost:8098/redirect?to=obsidian%3A%2F%2Fopen%3Fvault%3DMyVault%26file%3DMyNote
 ```
 
 ## 技術スタック

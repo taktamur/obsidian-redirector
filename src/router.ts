@@ -68,6 +68,15 @@ function handleRedirect(req: Request): Promise<Response> {
   // リダイレクト先のURLをデコード
   const decodedURL = decodeURIComponent(redirectURL);
 
+  // obsidianのURLスキームかどうかをチェック
+  if (!decodedURL.startsWith("obsidian://")) {
+    return Promise.resolve(
+      new Response("ObsidianのURLスキーム(obsidian://)ではありません", {
+        status: STATUS_CODE.BadRequest,
+      }),
+    );
+  }
+
   // obsidianスキームへのリダイレクト
   return Promise.resolve(Response.redirect(decodedURL, STATUS_CODE.Found));
 }
