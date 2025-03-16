@@ -138,12 +138,6 @@
             return;
           }
 
-          // ObsidianのURLスキームかチェック
-          if (!obsidianUrl.startsWith("obsidian://")) {
-            alert("ObsidianのURLスキーム(obsidian://)で始まる必要があります");
-            return;
-          }
-
           // URLのエンコード処理
           const encodedUrl = encodeURIComponent(obsidianUrl);
           const redirectUrl = `/redirect?to=${encodedUrl}`;
@@ -155,6 +149,14 @@
 
         // コピーボタンの処理
         copyButton.addEventListener("click", () => {
+          const obsidianUrl = obsidianUrlInput.value.trim();
+          
+          // ObsidianのURLスキームかチェック
+          if (!obsidianUrl.startsWith("obsidian://")) {
+            alert("ObsidianのURLスキーム(obsidian://)で始まる必要があります");
+            return;
+          }
+          
           const textToCopy = redirectUrlSpan.textContent;
           navigator.clipboard
             .writeText(textToCopy)
