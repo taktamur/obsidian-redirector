@@ -83,7 +83,7 @@
     </form>
     
     <div id="result" class="result hidden">
-      <div>リダイレクトURL: <span id="redirectUrl"></span></div>
+      <div>以下のURLで直接アクセスできます: <span id="redirectUrl"></span></div>
       <button id="copyButton">URLをコピー</button>
     </div>
     
@@ -112,8 +112,9 @@
         const encodedUrl = encodeURIComponent(obsidianUrl);
         const redirectUrl = `/redirect?to=${encodedUrl}`;
         
-        // 結果を表示
-        redirectUrlSpan.textContent = redirectUrl;
+        // 結果を表示（完全なURLを表示）
+        const fullUrl = window.location.origin + redirectUrl;
+        redirectUrlSpan.textContent = fullUrl;
         resultDiv.classList.remove('hidden');
         
         // 自動リダイレクト
@@ -123,7 +124,7 @@
       // コピーボタンの処理
       copyButton.addEventListener('click', () => {
         const textToCopy = redirectUrlSpan.textContent;
-        navigator.clipboard.writeText(window.location.origin + textToCopy)
+        navigator.clipboard.writeText(textToCopy)
           .then(() => {
             alert('URLをクリップボードにコピーしました');
           })
