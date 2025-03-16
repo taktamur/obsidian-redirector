@@ -1,0 +1,8 @@
+import { serve } from "https://deno.land/std@0.211.0/http/server.ts";
+import { router } from "./router.ts";
+
+const PORT = 8001;
+
+console.log(`リダイレクターサーバーを起動中... http://localhost:${PORT}/`);
+
+await serve(router, { port: PORT });
