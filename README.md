@@ -25,10 +25,10 @@ Obsidian の URL スキーム（obsidian://）が対応していない環境で�
 ### サーバーの起動
 ```bash
 # 通常起動
-deno run --allow-net src/main.ts
+deno run --allow-net --allow-read src/main.ts
 
 # 開発モード（ホットリロード）
-deno run --watch --allow-net src/main.ts
+deno run --watch --allow-net --allow-read src/main.ts
 ```
 
 ### 使用例

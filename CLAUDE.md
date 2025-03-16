@@ -6,10 +6,10 @@ http://localhost:8001からObsidianのURLスキームへリクエストを転送
 ## 開発コマンド
 ```bash
 # ローカルサーバーを起動
-deno run --allow-net src/main.ts
+deno run --allow-net --allow-read src/main.ts
 
 # 開発モードで実行（ホットリロード）
-deno run --watch --allow-net src/main.ts
+deno run --watch --allow-net --allow-read src/main.ts
 
 # リンター実行
 deno lint
