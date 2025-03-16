@@ -65,6 +65,14 @@
     .hidden {
       display: none;
     }
+    .button-group {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .button-group button {
+      flex: 1;
+    }
   </style>
 </head>
 <body>
@@ -73,18 +81,19 @@
   <div class="container">
     <p>ObsidianのURLスキーム（obsidian://）をブラウザから開くためのリダイレクターです。</p>
     
-    <form id="redirectForm">
+    <div>
       <label for="obsidianUrl">Obsidian URL:</label>
       <input type="text" id="obsidianUrl" name="obsidianUrl" 
              placeholder="例: obsidian://open?vault=MyVault&file=MyNote" 
-             autocomplete="off" required>
-      
-      <button type="submit">開く</button>
-    </form>
+             autocomplete="off">
+    </div>
     
-    <div id="result" class="result hidden">
+    <div id="result" class="result">
       <div>以下のURLで直接アクセスできます: <span id="redirectUrl"></span></div>
-      <button id="copyButton">URLをコピー</button>
+      <div class="button-group">
+        <button id="copyButton">URLをコピー</button>
+        <button id="openButton">Obsidianで開く</button>
+      </div>
     </div>
     
     <div class="example">
@@ -97,16 +106,24 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', () => {
-      const form = document.getElementById('redirectForm');
-      const resultDiv = document.getElementById('result');
+      const obsidianUrlInput = document.getElementById('obsidianUrl');
       const redirectUrlSpan = document.getElementById('redirectUrl');
       const copyButton = document.getElementById('copyButton');
+      const openButton = document.getElementById('openButton');
       
-      form.addEventListener('submit', (e) => {
-        e.preventDefault();
-        
-        const obsidianUrl = document.getElementById('obsidianUrl').value.trim();
-        if (!obsidianUrl) return;
+      // URLが更新されたら自動でリダイレクトURLを更新
+      obsidianUrlInput.addEventListener('input', updateRedirectUrl);
+      
+      // 初期表示時に空のURLを表示
+      updateRedirectUrl();
+
+      // リダイレクトURLを更新する関数
+      function updateRedirectUrl() {
+        const obsidianUrl = obsidianUrlInput.value.trim();
+        if (!obsidianUrl) {
+          redirectUrlSpan.textContent = window.location.origin + '/redirect?to=';
+          return;
+        }
         
         // URLのエンコード処理
         const encodedUrl = encodeURIComponent(obsidianUrl);
@@ -115,22 +132,37 @@
         // 結果を表示（完全なURLを表示）
         const fullUrl = window.location.origin + redirectUrl;
         redirectUrlSpan.textContent = fullUrl;
-        resultDiv.classList.remove('hidden');
-        
-        // 自動リダイレクト
-        window.location.href = redirectUrl;
-      });
+      }
       
       // コピーボタンの処理
       copyButton.addEventListener('click', () => {
         const textToCopy = redirectUrlSpan.textContent;
         navigator.clipboard.writeText(textToCopy)
           .then(() => {
-            alert('URLをクリップボードにコピーしました');
+            const button = copyButton;
+            const originalText = button.textContent;
+            button.textContent = 'コピーしました！';
+            button.disabled = true;
+            setTimeout(() => {
+              button.textContent = originalText;
+              button.disabled = false;
+            }, 2000);
           })
           .catch(err => {
             console.error('クリップボードへのコピーに失敗しました:', err);
           });
+      });
+      
+      // 開くボタンの処理
+      openButton.addEventListener('click', () => {
+        const obsidianUrl = obsidianUrlInput.value.trim();
+        if (!obsidianUrl) return;
+        
+        const encodedUrl = encodeURIComponent(obsidianUrl);
+        const redirectUrl = `/redirect?to=${encodedUrl}`;
+        
+        // Obsidianで開く
+        window.location.href = redirectUrl;
       });
     });
   </script>
